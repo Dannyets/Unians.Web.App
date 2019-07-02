@@ -1,0 +1,1 @@
+export { default as oDataUriService } from './oDataUri.service';
