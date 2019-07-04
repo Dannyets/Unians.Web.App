@@ -17,7 +17,38 @@ const getRandomNumbers = numberOfElements => {
   return numbers;
 }
 
+const objectToQueryString = params => {
+  const stringParams = Object.keys(params).map(key => `${key}=${params[key]}`)
+
+  let queryString; 
+
+  if(stringParams.length > 0){
+    queryString = `?${stringParams.join('&')}`;
+  }
+
+  return queryString;
+}
+
+const mergeWhiteSpace = (value) => {
+  let newValue, prevValue;
+
+  prevValue = value.replace('\\n', '');
+
+  do {
+    if(newValue){
+      prevValue = newValue;
+    }
+
+    newValue = prevValue.replace('  ', ' ');
+  }
+  while (prevValue !== newValue);
+
+  return newValue;
+}
+
 export default {
   delay,
-  getRandomNumbers
+  getRandomNumbers,
+  objectToQueryString,
+  mergeWhiteSpace
 };

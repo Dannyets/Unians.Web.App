@@ -1,6 +1,6 @@
 {
-  "name": "recato",
-  "version": "0.0.22",
+  "name": "unians",
+  "version": "1.0.0",
   "engines": {
     "npm": ">=3"
   },
@@ -21,6 +21,7 @@
     "@material-ui/core": "3.5.1",
     "@material-ui/icons": "3.0.2",
     "@material-ui/lab": "3.0.0-alpha.23",
+    "apollo-boost": "^0.4.3",
     "axios": "0.18.0",
     "bootstrap": "4.1.3",
     "chai": "^4.2.0",
@@ -28,6 +29,8 @@
     "classnames": "2.2.6",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
     "lodash": "^4.17.11",
     "material-ui-pickers": "^2.2.1",
     "moment": "2.22.1",
@@ -36,7 +39,6 @@
     "react": "16.3.2",
     "react-autocomplete": "1.8.1",
     "react-countdown-clock": "2.5.0",
-    "react-designer": "1.0.8",
     "react-dom": "16.3.2",
     "react-dropzone": "8.1.0",
     "react-explode": "^1.0.2",
@@ -60,9 +62,9 @@
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
-    "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.3",
-    "@babel/node": "7.2.2",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "7.3.3",
     "@babel/plugin-proposal-export-default-from": "7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "7.2.0",
@@ -105,7 +107,7 @@
     "mockdate": "2.0.1",
     "node": "8.9.4",
     "node-sass": "^4.12.0",
-    "npm-run-all": "^4.1.3",
+    "npm-run-all": "^4.1.5",
     "opn-cli": "3.1.0",
     "postcss-loader": "2.0.6",
     "pre-commit": "1.2.2",

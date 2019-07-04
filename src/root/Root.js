@@ -12,6 +12,7 @@ import { Header } from './Root.styles';
 import Router from './router';
 import { ThemeProvider } from './theme-provider';
 import Navigation from './navigation';
+import '../extensions';
 
 const NavigationWithRouter = withRouter(Navigation);
 

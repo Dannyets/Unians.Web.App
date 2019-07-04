@@ -3,7 +3,7 @@ import {
     SELECT_UNIVERSITY,
     ADD_UNIVERSITY
 } from './University.actionTypes';
-import univesityResource from './University.resource';
+import univesityService from './University.service';
 
 const getUniversitiesSuccess = (universities) => ({
     type: GET_UNIVERSITIES_SUCCESS,
@@ -21,15 +21,13 @@ export const addUniversitySuccess = (university) => ({
 });
 
 export const getUniversities = () => async (dispatch) => {
-    const universities = await univesityResource.getODataRequest()
-                                                .select('Name', 'Id')
-                                                .executeRequest();
+    const universities = await univesityService.getUniversities();
 
     dispatch(getUniversitiesSuccess(universities))
 }
 
 export const addUniversity = (university) => async (dispatch) => {
-    const newUniversity = await univesityResource.add(university);
+    const newUniversity = await univesityService.add(university);
 
     dispatch(addUniversitySuccess(newUniversity))
 }

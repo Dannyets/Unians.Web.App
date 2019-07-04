@@ -1,10 +1,9 @@
-import { BaseODataResource } from '../../classes';
+import { restService } from '../../services';
 
-const resource = new BaseODataResource('course');
+const baseUrl = "http://localhost:5000/graphql"
 
 export default {
-    getWithParameter: resource.getODataRequestWithParameter,
-    add: resource.post,
-    update: resource.put,
-    delete: resource.remove
+    add: restService.post,
+    update: restService.put,
+    delete: restService.remove
 };
