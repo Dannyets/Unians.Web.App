@@ -14,5 +14,7 @@ export default {
         const universities = await resource.getUniversities(query);
 
         return universities;
-    }
+    },
+
+    addUniversity: resource.addUniversity
 }

@@ -1,6 +1,5 @@
 import { 
     GET_FACULTIES_FOR_UNIVERSITY_SUCCESS,
-    GET_ALL_FACULTIES_SUCCESS,
     SELECT_FACULTY,
     ADD_FACULTY_SUCCESS
 } from './Faculty.actionTypes';
@@ -11,7 +10,6 @@ const facultyReducer = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case GET_ALL_FACULTIES_SUCCESS:
         case GET_FACULTIES_FOR_UNIVERSITY_SUCCESS:{
             const { faculties } = payload;
 
