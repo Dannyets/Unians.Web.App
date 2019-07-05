@@ -3,7 +3,7 @@ import {
     SELECT_SEMESTER,
     RESET_SEMESTER_SELECTION
 } from './Semester.actionTypes';
-import semeserResource from './Semester.resource';
+import semeserService from './Semester.service';
 
 export const getSemestersSuccess = (semesters) => ({
     type: GET_SEMESTERS_SUCCESS,
@@ -20,10 +20,8 @@ export const resetSemesterSelection = () => ({
     payload: {}
 });
 
-export const getSemesters = () => async (dispatch) => {
-    const semesters = await semeserResource.getODataRequest()
-                                           .select('Name', 'Id')
-                                           .executeRequest();
+export const getSemesters = (universityId) => async (dispatch) => {
+    const semesters = await semeserService.getSemestersForUniversity(universityId)
 
     dispatch(getSemestersSuccess(semesters));
 }

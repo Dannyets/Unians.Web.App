@@ -18,10 +18,10 @@ import { PageContainer, MainContent, StyledIconTitle } from '../Unians.styles';
 
 class Course extends ModalStateComponent {
   async componentDidMount(){
-    const { actions, selectedFacultyId } = this.props;
+    const { actions, selectedUniversityId, selectedFacultyId } = this.props;
     const { getFacultyCourses } = actions;
 
-    await getFacultyCourses(selectedFacultyId);
+    await getFacultyCourses(selectedUniversityId, selectedFacultyId);
   }
 
   async componentDidUpdate(prevProps){
@@ -30,11 +30,11 @@ class Course extends ModalStateComponent {
 
   updateCourses = async (prevProps) => {
     const { selectedFacultyId: prevSelectedFacultyId } = prevProps;
-    const { selectedFacultyId, actions } = this.props;
+    const { selectedFacultyId, actions, selectedUniversityId } = this.props;
     const { getFacultyCourses } = actions;
 
     if(prevSelectedFacultyId !== selectedFacultyId){
-        await getFacultyCourses(selectedFacultyId);
+        await getFacultyCourses(selectedUniversityId, selectedFacultyId);
     }
   }
 

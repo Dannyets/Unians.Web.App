@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { getSemesters as getSemestersSelector ,getSelectedSemesterIds } from '../Unians.selectors';
+import { getSemesters as getSemestersSelector ,getSelectedUniversityId, getSelectedSemesterIds } from '../Unians.selectors';
 
 import { getSemesters, selectSemester, resetSemesterSelection } from './Semester.actions';
 
@@ -8,10 +8,10 @@ import { CardsSuggestionInput, ReduxContainer } from '../../components';
 
 class Semester extends Component {
   async componentDidMount(){
-    const { actions } = this.props;
+    const { actions, selectedUniversityId } = this.props;
     const { getSemesters } = actions;
 
-    await getSemesters();
+    await getSemesters(selectedUniversityId);
   }
 
   handleSemesterSelect = async (semesterId) => {
@@ -46,7 +46,8 @@ class Semester extends Component {
 export default ReduxContainer({
   selectors: {
     semesters: getSemestersSelector,
-    selectedSemesterIds: getSelectedSemesterIds,
+    selectedUniversityId: getSelectedUniversityId,
+    selectedSemesterIds: getSelectedSemesterIds
   },
   actions: {
     getSemesters,

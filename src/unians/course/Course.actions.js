@@ -3,7 +3,7 @@ import {
     SELECT_COURSE,
     ADD_COURSE_SUCCESS
 } from './Course.actionTypes';
-import resource from './Course.resource';
+import courseService from './Course.service';
 
 const getFacultyCoursesSuccess = (courses) => ({
     type: GET_FACULTY_COURSES,
@@ -20,16 +20,14 @@ const addCourseSuccess = (course) => ({
     payload: { course }
 });
 
-export const getFacultyCourses = (facultyId) => async (dispatch) => {
-    const courses = await resource.getWithParameter(facultyId)
-                                  .select('Name', 'Id', 'CourseNumber')
-                                  .executeRequest();
+export const getFacultyCourses = (universityId, facultyId) => async (dispatch) => {
+    const courses = await courseService.getCoursesForFaculty(universityId, facultyId);
                                           
     dispatch(getFacultyCoursesSuccess(courses))
 }
 
 export const addCourse = (course) => async (dispatch) => {
-    const newCourse = await resource.add(course);
+    const newCourse = await courseService.add(course);
 
     dispatch(addCourseSuccess(newCourse));
 }
