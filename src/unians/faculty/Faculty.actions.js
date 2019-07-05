@@ -28,7 +28,7 @@ export const getFacultiesForUniversity = (universityId) => async (dispatch) => {
 }
 
 export const addFaculty = (faculty) => async (dispatch) => {
-    const newFaculty = await facultyService.add(faculty);
+    const newFaculty = await facultyService.addFaculty(faculty);
 
     dispatch(addFacultySuccess(newFaculty));
 }
