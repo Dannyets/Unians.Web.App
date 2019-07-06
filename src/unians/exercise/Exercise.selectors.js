@@ -1,6 +1,6 @@
-import { getUnians } from '../Unians.selectors';
+import { getUniansState } from '../Unians.selectors';
 
-export const getExercisesState = (state) => getUnians(state).exercisesState;
+export const getExercisesState = (state) => getUniansState(state).exercisesState;
 export const getUniversity = (state) => getExercisesState(state).university;
 export const getFaculty = (state) => getExercisesState(state).faculty;
 export const getCourse = (state) => getExercisesState(state).course;

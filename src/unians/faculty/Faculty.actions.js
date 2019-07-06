@@ -5,9 +5,9 @@ import {
 } from './Faculty.actionTypes';
 import facultyService from './Faculty.service';
 
-const getFacultiesForUniversitySuccess = (faculties) => ({
+const getFacultiesForUniversitySuccess = (facultiesState) => ({
     type: GET_FACULTIES_FOR_UNIVERSITY_SUCCESS,
-    payload: { faculties }
+    payload: { facultiesState }
 });
 
 export const selectFaculty = (facultyId) => ({
@@ -22,9 +22,9 @@ export const addFacultySuccess = (faculty) => ({
 
 
 export const getFacultiesForUniversity = (universityId) => async (dispatch) => {
-    const faculties = await facultyService.getFacultiesForUniversity(universityId);
+    const facultiesState = await facultyService.getFacultiesForUniversity(universityId);
 
-    dispatch(getFacultiesForUniversitySuccess(faculties));
+    dispatch(getFacultiesForUniversitySuccess(facultiesState));
 }
 
 export const addFaculty = (faculty) => async (dispatch) => {

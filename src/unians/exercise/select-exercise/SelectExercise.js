@@ -1,54 +1,58 @@
 import React, { Component } from 'react';
 
 import { 
-  getExercises as getExercisesSelector, 
-  getSelectedUniversityId,
-  getSelectedFacultyId,
-  getSelectedSemesterIds, 
-  getSelectedCourseId,
-  getSelectedExerciseIds
-} from '../../Unians.selectors';
-
-import { getExercisesForCourseAndSemesters, resetExercises, selectExercise } from '../Exercise.actions';
+  getExercisesForCourseAndSemesters, 
+  selectExercise 
+} from '../Exercise.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../../components';
 
+import {
+  getExercises as getExercisesSelector,
+  getSelectedExerciseIds
+} from '../Exercise.selectors';
+
+import { universitySelectors } from '../../university';
+import { facultySelectors } from '../../faculty';
+import { courseSelectors } from '../../course';
+import { semesterSelectors } from '../../semester';
+
+const { getSelectedUniversityId } = universitySelectors;
+const { getSelectedFacultyId } = facultySelectors;
+const { getSelectedCourseId } = courseSelectors;
+const { getSelectedSemesterIds } = semesterSelectors;
+
 class SelectExercise extends Component {
   async componentDidMount(){
-    await this.updateOrReset();
+      await this.getExercises();
   }
 
   async componentDidUpdate(prevProps){
-    await this.updateExercises(prevProps);
-  }
-
-  componentWillUnmount(){
-    const { actions } = this.props;
-    const { resetExercises } = actions;
-
-    resetExercises();      
-  }
-
-  updateExercises = async (prevProps) => {
-    const { selectedSemesterIds: prevSelectedSemesterIds } = prevProps;
-    const { selectedSemesterIds } = this.props
-
-    if(selectedSemesterIds.length !== prevSelectedSemesterIds.length){
-      await this.updateOrReset();
+    if(this.shouldGetExercises(prevProps)){
+      await this.getExercises();
     }
   }
 
-  updateOrReset = async () => {
-    const { actions, selectedUniversityId, selectedFacultyId, selectedCourseId, selectedSemesterIds, exercises } = this.props;
-    const { getExercisesForCourseAndSemesters, resetExercises } = actions;
+  shouldGetExercises = async (prevProps) => {
+    if(!prevProps){
+      return true;
+    }
 
-    if(selectedSemesterIds.length === 0) {
-      if(exercises.length > 0){
-          resetExercises();      
-        }
-      } else {
-        await getExercisesForCourseAndSemesters(selectedUniversityId, selectedFacultyId, selectedCourseId, selectedSemesterIds);
-      }
+    const { semesterIds: prevSemesterIds } = prevProps;
+    const { semesterIds } = this.props
+
+    if(prevSemesterIds.length !== semesterIds.length){
+      return true;
+    }
+
+    return false;
+  }
+
+  getExercises = async () => {
+    const { actions, universityId, facultyId, courseId, semesterIds } = this.props;
+    const { getExercisesForCourseAndSemesters } = actions;
+
+    await getExercisesForCourseAndSemesters(universityId, facultyId, courseId, semesterIds);
   }
 
   handleSelectExercise = (exerciseId) => {
@@ -75,15 +79,14 @@ class SelectExercise extends Component {
 export default ReduxContainer({
   selectors: {
     exercises: getExercisesSelector,
-    selectedUniversityId: getSelectedUniversityId,
-    selectedFacultyId: getSelectedFacultyId,
-    selectedCourseId: getSelectedCourseId,
-    selectedSemesterIds: getSelectedSemesterIds,
+    universityId: getSelectedUniversityId,
+    facultyId: getSelectedFacultyId,
+    courseId: getSelectedCourseId,
+    semesterIds: getSelectedSemesterIds,
     selectedExerciseIds: getSelectedExerciseIds
   },
   actions: {
     getExercisesForCourseAndSemesters,
-    resetExercises,
     selectExercise
   }
 })(SelectExercise);

@@ -1,33 +1,40 @@
 import React from 'react';
 
-import { 
-    getSelectedUniversityId, 
-    getSelectedFacultyId, 
-    getSelectedCourseId 
-} from '../Unians.selectors';
+import { getExercisesForCourseAndSemesters } from '../Exercise.actions'
+
+import { ReduxContainer } from '../../../components';
+import { SelectExercise } from '..';
+
+import { PageContainer, SemesterSection, Section, MainContent } from './FindExercises.styles';
+import { StyledIconTitle } from '../../Unians.styles';
 
 import { 
     getUniversity, 
     getFaculty, 
-    getCourse,
-    getSemesters 
-} from '../exercise/Exercise.selectors';
+    getCourse
+} from '../Exercise.selectors';
 
-import { getExercisesForCourseAndSemesters } from '../exercise/Exercise.actions'
+import { universitySelectors } from '../../university';
+import { facultySelectors } from '../../faculty';
+import { courseSelectors } from '../../course';
+import { semesterSelectors } from '../../semester';
 
-import { ReduxContainer } from '../../components';
-import { SelectExercise } from '../exercise';
-
-import { PageContainer, SemesterSection, Section, MainContent } from './FindExercises.styles';
-import { StyledIconTitle } from '../Unians.styles';
+const { getSelectedUniversityId } = universitySelectors;
+const { getSelectedFacultyId } = facultySelectors;
+const { getSelectedCourseId } = courseSelectors;
+const { getSelectedSemesterIds } = semesterSelectors;
 
 class FindExercises extends React.Component {
     async componentDidMount(){
-        const { actions, selectedUniverstyId, selectedFacultyId, selectedCourseId } = this.props;
+        await this.getExercies();
+    }
+
+    getExercies = async () => {
+        const { actions, universityId, facultyId, courseId } = this.props;
         const { getExercisesForCourseAndSemesters } = actions;
     
-        await getExercisesForCourseAndSemesters(selectedUniverstyId, selectedFacultyId, selectedCourseId, []);
-      }
+        await getExercisesForCourseAndSemesters(universityId, facultyId, courseId, []);
+    }
 
     getTitle = () => {
         const { university, faculty, course } = this.props;
@@ -42,16 +49,14 @@ class FindExercises extends React.Component {
     }
 
     handleBackClick = () => {
-        const { history, university, faculty } = this.props;
-        const { id: universityId } = university;
-        const { id: facultyId } = faculty;
+        const { history, universityId, facultyId } = this.props;
         
         history.push(`/${universityId}/${facultyId}`);
     }
 
     render(){
-        const { semesters } = this.props;
-        const shouldShowExercises =  semesters.length > 0;
+        const { semesterIds } = this.props;
+        const shouldShowExercises =  semesterIds.length > 0;
 
         return (
             <PageContainer>
@@ -75,13 +80,13 @@ class FindExercises extends React.Component {
 
 export default ReduxContainer({
     selectors: {
-      selectedUniverstyId: getSelectedUniversityId, 
-      selectedFacultyId: getSelectedFacultyId, 
-      selectedCourseId: getSelectedCourseId,
+      universityId: getSelectedUniversityId, 
+      facultyId: getSelectedFacultyId, 
+      courseId: getSelectedCourseId,
+      semesterIds: getSelectedSemesterIds,
       university: getUniversity, 
       faculty: getFaculty, 
       course: getCourse,
-      semesters: getSemesters, 
     },
     actions: {
         getExercisesForCourseAndSemesters

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Semester from '../semester';
-import { Column, CenteredColumn } from '../../components';
+import Semester from '../../semester';
+import { Column, CenteredColumn } from '../../../components';
 
 export const PageContainer = styled(CenteredColumn)`
     width: 100%;

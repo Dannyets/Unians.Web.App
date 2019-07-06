@@ -15,11 +15,16 @@ export default {
             }
         }`;
 
-        const universityWithFaculties = await resource.getFacultiesForUniversity(query);
+        const data = await resource.getFacultiesForUniversity(query);
         
-        const { faculties } = universityWithFaculties;
+        const { university: universityData } = data;
 
-        return faculties;
+        const { faculties, ...university  } = universityData;
+
+        return {
+            university,
+            faculties
+        };
     },
 
     addFaculty: resource.addFaculty

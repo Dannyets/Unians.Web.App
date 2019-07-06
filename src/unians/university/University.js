@@ -1,8 +1,16 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { getUniversities as getUniversitiesSelector, getSelectedUniversityId } from '../Unians.selectors';
-import { getUniversities, selectUniversity, addUniversity } from './University.actions';
+import { 
+  getUniversities as getUniversitiesSelector, 
+  getSelectedUniversityId 
+} from './University.selectors';
+
+import { 
+  getUniversities, 
+  selectUniversity, 
+  addUniversity 
+} from './University.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 import { AddNew } from '../add';

@@ -5,9 +5,9 @@ import {
 } from './Course.actionTypes';
 import courseService from './Course.service';
 
-const getFacultyCoursesSuccess = (courses) => ({
+const getFacultyCoursesSuccess = (courseState) => ({
     type: GET_FACULTY_COURSES,
-    payload: { courses }
+    payload: { courseState }
 });
 
 export const selectCourse = (courseId) => ({
@@ -21,9 +21,9 @@ const addCourseSuccess = (course) => ({
 });
 
 export const getFacultyCourses = (universityId, facultyId) => async (dispatch) => {
-    const courses = await courseService.getCoursesForFaculty(universityId, facultyId);
+    const courseState = await courseService.getCoursesForFaculty(universityId, facultyId);
                                           
-    dispatch(getFacultyCoursesSuccess(courses))
+    dispatch(getFacultyCoursesSuccess(courseState))
 }
 
 export const addCourse = (course) => async (dispatch) => {

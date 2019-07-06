@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
 
-import { getSemesters as getSemestersSelector ,getSelectedUniversityId, getSelectedSemesterIds } from '../Unians.selectors';
-
-import { getSemesters, selectSemester, resetSemesterSelection } from './Semester.actions';
+import { 
+  getSemesters, 
+  selectSemester, 
+} from './Semester.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 
+import { 
+  getSemesters as getSemestersSelector, 
+  getSelectedSemesterIds 
+} from './Semester.selectors';
+
+import { universitySelectors } from '../university';
+const { getSelectedUniversityId } = universitySelectors;
+
 class Semester extends Component {
   async componentDidMount(){
-    const { actions, selectedUniversityId } = this.props;
+    const { actions, universityId } = this.props;
     const { getSemesters } = actions;
 
-    await getSemesters(selectedUniversityId);
+    await getSemesters(universityId);
   }
 
   handleSemesterSelect = async (semesterId) => {
@@ -19,13 +28,6 @@ class Semester extends Component {
     const { selectSemester } = actions;
 
     selectSemester(semesterId);
-  }
-
-  componentWillUnmount(){
-    const { actions } = this.props;
-    const { resetSemesterSelection } = actions;
-
-    resetSemesterSelection();
   }
 
   render() {
@@ -46,13 +48,12 @@ class Semester extends Component {
 export default ReduxContainer({
   selectors: {
     semesters: getSemestersSelector,
-    selectedUniversityId: getSelectedUniversityId,
+    universityId: getSelectedUniversityId,
     selectedSemesterIds: getSelectedSemesterIds
   },
   actions: {
     getSemesters,
-    selectSemester,
-    resetSemesterSelection
+    selectSemester
   }
 })(Semester);
 

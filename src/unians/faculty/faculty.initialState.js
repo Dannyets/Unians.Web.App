@@ -1,4 +1,5 @@
 export default {
+    university: {},
     faculties: [
         {
             id: 1,

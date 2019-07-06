@@ -11,10 +11,12 @@ const facultyReducer = (state = initialState, action) => {
 
     switch (type) {
         case GET_FACULTIES_FOR_UNIVERSITY_SUCCESS:{
-            const { faculties } = payload;
+            const { facultiesState } = payload;
+            const { university, faculties } = facultiesState;
 
             return { 
                 ...state,
+                university,
                 faculties
             };
         }

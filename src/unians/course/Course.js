@@ -2,13 +2,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 
-import { getCourses, 
-         getUniversities, 
-         getFaculties, 
-         getSelectedFacultyId,
-         getSelectedUniversityId,
-         getSelectedCourseId} from '../Unians.selectors';
-
 import { getFacultyCourses, selectCourse, addCourse } from './Course.actions';
 
 import { ModalStateComponent } from '../modal-state-component';
@@ -16,57 +9,80 @@ import { AddNew } from '../add';
 
 import { PageContainer, MainContent, StyledIconTitle } from '../Unians.styles';
 
+import { 
+  getCourses, 
+  getUniversity, 
+  getFaculty, 
+  getSelectedCourseId
+} from './Course.selectors';
+
+import { universitySelectors } from '../university';
+import { facultySelectors } from '../faculty';
+
+const { getSelectedUniversityId } = universitySelectors;
+const { getSelectedFacultyId } = facultySelectors;
+
 class Course extends ModalStateComponent {
   async componentDidMount(){
-    const { actions, selectedUniversityId, selectedFacultyId } = this.props;
-    const { getFacultyCourses } = actions;
-
-    await getFacultyCourses(selectedUniversityId, selectedFacultyId);
+    await this.getCourses();
   }
 
   async componentDidUpdate(prevProps){
-      await this.updateCourses(prevProps);
-  }
-
-  updateCourses = async (prevProps) => {
-    const { selectedFacultyId: prevSelectedFacultyId } = prevProps;
-    const { selectedFacultyId, actions, selectedUniversityId } = this.props;
-    const { getFacultyCourses } = actions;
-
-    if(prevSelectedFacultyId !== selectedFacultyId){
-        await getFacultyCourses(selectedUniversityId, selectedFacultyId);
+    if(this.shouldGetCourses(prevProps)){
+      await this.getCourses();
     }
   }
 
+  shouldGetCourses = (prevProps) => {
+    if(!prevProps){
+      return true;
+    }
+
+    const { facultyId: prevFacultyId } = prevProps;
+
+    const { facultyId } = this.props;
+
+    if(prevFacultyId !== facultyId){
+        return true;
+    }
+
+    return false;
+  }
+
+  getCourses = async () => {
+    const { universityId, actions, facultyId } = this.props;
+    const { getFacultyCourses } = actions;
+
+    await getFacultyCourses(universityId, facultyId);
+  }
+
   handleCourseSelect = (courseId) => {
-    const { history, actions, selectedUniversityId, selectedFacultyId } = this.props;
+    const { history, actions, universityId, facultyId } = this.props;
     const { selectCourse } = actions;
 
     selectCourse(courseId);
 
-    history.push(`/${selectedUniversityId}/${selectedFacultyId}/${courseId}`);
+    history.push(`/${universityId}/${facultyId}/${courseId}`);
   }
 
   getTitle = () => {
-    const { universities, faculties, selectedUniversityId, selectedFacultyId } = this.props;
+    const { university, faculty } = this.props;
 
-    const university = universities.filter(u => u.id === selectedUniversityId)[0];
     const { name: universityName } = university || {};
 
-    const faculty = faculties.filter(f => f.id === selectedFacultyId)[0];
     const { name: facultyName } = faculty || {};
 
     return `${universityName} / ${facultyName}`;
   }
 
   handleBackClick = () => {
-      const { history, selectedUniversityId } = this.props;
-  
-      history.push(`/${selectedUniversityId}`);
+      const { history, universityId } = this.props;
+
+      history.push(`/${universityId}`);
   }
 
   render() {
-    const { courses, selectedCourseId, selectedFacultyId, actions } = this.props;
+    const { courses, selectedCourseId, facultyId, actions } = this.props;
     const { addCourse } = actions;
     const { showAddModal } = this.state;
 
@@ -102,7 +118,7 @@ class Course extends ModalStateComponent {
                   type: 'text'
                 },
                 facultyCourses: [{
-                  facultyId: selectedFacultyId
+                  facultyId
                 }]
               }}
               onAdd={addCourse}
@@ -115,12 +131,12 @@ class Course extends ModalStateComponent {
 
 export default ReduxContainer({
   selectors: {
+    universityId: getSelectedUniversityId,
+    facultyId: getSelectedFacultyId,
     courses: getCourses,
-    universities: getUniversities,
-    faculties: getFaculties,
-    selectedUniversityId: getSelectedUniversityId,
-    selectedFacultyId: getSelectedFacultyId,
-    selectedCourseId: getSelectedCourseId
+    selectedCourseId: getSelectedCourseId,
+    university: getUniversity, 
+    faculty: getFaculty,
   },
   actions: {
     getFacultyCourses,

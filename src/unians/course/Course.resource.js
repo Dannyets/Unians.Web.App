@@ -11,13 +11,7 @@ export default {
     getCoursesForFaculty: async (query) => {
         const data = await graphqlService.get(query);
 
-        const { university } = data;
-
-        const { faculty } = university || {};
-
-        const { courses } = faculty || [];
-
-        return courses;
+        return data;
     },
 
     addCourse: async (university) => {

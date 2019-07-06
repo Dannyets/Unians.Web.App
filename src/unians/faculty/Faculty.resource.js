@@ -11,9 +11,7 @@ export default {
     getFacultiesForUniversity: async (query) => {
         const data = await graphqlService.get(query);
 
-        const { university } = data;
-
-        return university;
+        return data;
     },
 
     addFaculty: async (faculty) => {

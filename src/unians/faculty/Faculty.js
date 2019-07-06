@@ -1,54 +1,77 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { getUniversities as getUniversitiesSelector, 
-    getFaculties as getFacultiesSelector,
-    getSelectedUniversityId,
-    getSelectedFacultyId } from '../Unians.selectors';
+import {
+  getUniversity,
+  getSelectedFacultyId,
+  getFaculties as getFacultiesSelector,
+} from './Faculties.selectors';
 
-import { getFacultiesForUniversity, selectFaculty, addFaculty } from './Faculty.actions';
+import { 
+  getFacultiesForUniversity, 
+  selectFaculty, 
+  addFaculty 
+} from './Faculty.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 import { AddNew } from '../add';
 import { ModalStateComponent } from '../modal-state-component';
 
-import { PageContainer, MainContent, StyledIconTitle } from '../Unians.styles';
+import { 
+  PageContainer, 
+  MainContent, 
+  StyledIconTitle 
+} from '../Unians.styles';
+
+import { universitySelectors } from '../University';
+const {  getSelectedUniversityId } = universitySelectors;
 
 class Faculty extends ModalStateComponent {
   async componentDidMount(){
-    const { actions, selectedUniverstyId } = this.props;
+    await this.getFaculties();
+  }
+
+  async componentDidUpdate(prevProps){
+    if(this.shouldGetFaculties(prevProps)){
+      await this.getFaculties();
+    }
+  }
+
+  shouldGetFaculties = (prevProps) => {
+    if(!prevProps){
+      return true;
+    }
+
+    const { selectedUniverstyId: prevSelectedUniversityId } = prevProps;
+    const { selectedUniverstyId } = this.props
+
+    if(selectedUniverstyId && selectedUniverstyId !== prevSelectedUniversityId){
+      return true;
+    }
+
+    return false;
+  }
+
+  getFaculties = async () => {
+    const { selectedUniverstyId, actions } = this.props
     const { getFacultiesForUniversity } = actions;
 
     await getFacultiesForUniversity(selectedUniverstyId);
   }
 
-  async componentDidUpdate(prevProps){
-    await this.updateFaculties(prevProps);
-  }
-
-  updateFaculties = async (prevProps) => {
-    const { selectedUniverstyId: prevSelectedUniversityId } = prevProps;
-    const { selectedUniverstyId, actions } = this.props
-    const { getFacultiesForUniversity } = actions;
-
-    if(selectedUniverstyId && selectedUniverstyId !== prevSelectedUniversityId){
-      await getFacultiesForUniversity(selectedUniverstyId);
-    }
-  }
-
   handleFacultySelect = (facultyId) => {
-    const { history, actions, selectedUniverstyId } = this.props;
+    const { history, actions, university } = this.props;
     const { selectFaculty } = actions;
+    const { id: universityId } = university;
     
     selectFaculty(facultyId);
 
-    history.push(`/${selectedUniverstyId}/${facultyId}`);
+    history.push(`/${universityId}/${facultyId}`);
   }
 
   getTitle = () => {
-      const { universities, selectedUniverstyId } = this.props;
+      const { university } = this.props;
 
-      const university = universities.filter(u => u.id === selectedUniverstyId)[0];
       const { name } = university || {};
 
       return name;
@@ -101,7 +124,7 @@ class Faculty extends ModalStateComponent {
 
 export default ReduxContainer({
   selectors: {
-    universities: getUniversitiesSelector,
+    university: getUniversity,
     faculties: getFacultiesSelector,
     selectedUniverstyId: getSelectedUniversityId,
     selectedFacultyId: getSelectedFacultyId,

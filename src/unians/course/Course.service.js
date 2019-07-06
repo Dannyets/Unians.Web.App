@@ -19,9 +19,19 @@ export default {
             }
         }`;
 
-        const courses = await resource.getCoursesForFaculty(query);
+        const data = await resource.getCoursesForFaculty(query);
 
-        return courses;
+        const { university: universityData } = data;
+
+        const { faculty: facultyData, ...university } = universityData;
+
+        const { courses, ...faculty } = facultyData;
+
+        return {
+            university,
+            faculty,
+            courses
+        };
     },
 
     addUniversity: resource.addCourse
