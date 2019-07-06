@@ -8,7 +8,6 @@
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm run start-message",
     "start": "npm-run-all --parallel open:src lint:watch",
-    "test": "node scripts/test.js --env=jsdom",
     "build": "babel-node tools/build.js",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "esw webpack.config.* src tools --color",

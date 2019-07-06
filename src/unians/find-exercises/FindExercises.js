@@ -1,12 +1,19 @@
 import React from 'react';
 
-import { getUniversities, 
-         getFaculties, 
-         getCourses,
-         getSelectedUniversityId,
-         getSelectedFacultyId,
-         getSelectedSemesterIds,
-         getSelectedCourseId } from '../Unians.selectors';
+import { 
+    getSelectedUniversityId, 
+    getSelectedFacultyId, 
+    getSelectedCourseId 
+} from '../Unians.selectors';
+
+import { 
+    getUniversity, 
+    getFaculty, 
+    getCourse,
+    getSemesters 
+} from '../exercise/Exercise.selectors';
+
+import { getExercisesForCourseAndSemesters } from '../exercise/Exercise.actions'
 
 import { ReduxContainer } from '../../components';
 import { SelectExercise } from '../exercise';
@@ -15,31 +22,36 @@ import { PageContainer, SemesterSection, Section, MainContent } from './FindExer
 import { StyledIconTitle } from '../Unians.styles';
 
 class FindExercises extends React.Component {
-    getTitle = () => {
-        const { universities, faculties, courses, 
-                selectedUniversityId, selectedFacultyId, selectedCourseId } = this.props;
+    async componentDidMount(){
+        const { actions, selectedUniverstyId, selectedFacultyId, selectedCourseId } = this.props;
+        const { getExercisesForCourseAndSemesters } = actions;
+    
+        await getExercisesForCourseAndSemesters(selectedUniverstyId, selectedFacultyId, selectedCourseId, []);
+      }
 
-        const university = universities.filter(u => u.id === selectedUniversityId)[0];
+    getTitle = () => {
+        const { university, faculty, course } = this.props;
+
         const { name: universityName } = university || {};
 
-        const faculty = faculties.filter(f => f.id === selectedFacultyId)[0];
         const { name: facultyName } = faculty || {};
 
-        const course = courses.filter(c => c.id === selectedCourseId)[0];
         const { name: courseName } = course || {};
 
         return `${universityName} / ${facultyName} / ${courseName}`;
     }
 
     handleBackClick = () => {
-        const { history, selectedUniversityId, selectedFacultyId } = this.props;
+        const { history, university, faculty } = this.props;
+        const { id: universityId } = university;
+        const { id: facultyId } = faculty;
         
-        history.push(`/${selectedUniversityId}/${selectedFacultyId}`);
+        history.push(`/${universityId}/${facultyId}`);
     }
 
     render(){
-        const { selectedSemesterIds } = this.props;
-        const shouldShowExercises =  selectedSemesterIds.length > 0;
+        const { semesters } = this.props;
+        const shouldShowExercises =  semesters.length > 0;
 
         return (
             <PageContainer>
@@ -63,15 +75,16 @@ class FindExercises extends React.Component {
 
 export default ReduxContainer({
     selectors: {
-      universities: getUniversities,
-      faculties: getFaculties,
-      courses: getCourses,
-      selectedUniversityId: getSelectedUniversityId,
-      selectedFacultyId: getSelectedFacultyId,
+      selectedUniverstyId: getSelectedUniversityId, 
+      selectedFacultyId: getSelectedFacultyId, 
       selectedCourseId: getSelectedCourseId,
-      selectedSemesterIds: getSelectedSemesterIds,
+      university: getUniversity, 
+      faculty: getFaculty, 
+      course: getCourse,
+      semesters: getSemesters, 
     },
     actions: {
+        getExercisesForCourseAndSemesters
     }
   })(FindExercises);
   

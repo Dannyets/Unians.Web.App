@@ -3,11 +3,11 @@ import {
     RESET_EXERCISES,
     SELECT_EXERCISE
 } from './Exercise.actionTypes';
-import resource from './Exercise.resource';
+import exerciseService from './Exercise.service';
 
-const getExercisesSuccess = (exercises) => ({
+const getExercisesSuccess = (exerciseState) => ({
     type: GET_EXERCISES_SUCCESS,
-    payload: { exercises }
+    payload: { exerciseState }
 });
 
 export const resetExercises = () => ({
@@ -20,8 +20,8 @@ export const selectExercise = (exerciseId) => ({
     payload: { exerciseId }
 });
 
-export const getExercisesForCourseAndSemesters = (courseId, semesterIds) => async (dispatch) => {
-    const exercises = await resource.getExercisesForCourseAndSemesters(courseId, semesterIds);
+export const getExercisesForCourseAndSemesters = (universityId, facultyId, courseId, semesterIds) => async (dispatch) => {
+    const state = await exerciseService.getExercisesForCourseAndSemesters(universityId, facultyId, courseId, semesterIds);
 
-    dispatch(getExercisesSuccess(exercises));
+    dispatch(getExercisesSuccess(state));
 }

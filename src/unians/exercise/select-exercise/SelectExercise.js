@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { 
   getExercises as getExercisesSelector, 
+  getSelectedUniversityId,
+  getSelectedFacultyId,
   getSelectedSemesterIds, 
   getSelectedCourseId,
   getSelectedExerciseIds
@@ -37,7 +39,7 @@ class SelectExercise extends Component {
   }
 
   updateOrReset = async () => {
-    const { actions, selectedCourseId, selectedSemesterIds, exercises } = this.props;
+    const { actions, selectedUniversityId, selectedFacultyId, selectedCourseId, selectedSemesterIds, exercises } = this.props;
     const { getExercisesForCourseAndSemesters, resetExercises } = actions;
 
     if(selectedSemesterIds.length === 0) {
@@ -45,7 +47,7 @@ class SelectExercise extends Component {
           resetExercises();      
         }
       } else {
-        await getExercisesForCourseAndSemesters(selectedCourseId, selectedSemesterIds);
+        await getExercisesForCourseAndSemesters(selectedUniversityId, selectedFacultyId, selectedCourseId, selectedSemesterIds);
       }
   }
 
@@ -63,9 +65,6 @@ class SelectExercise extends Component {
       <CardsSuggestionInput 
             placeholder="Enter exercise name / id to filter"
             cards={exercises}
-            groupBy={{
-                keySelector: (e) => e.semester.name,
-            }}
             multipleSelect={true}
             selection={selectedExerciseIds}
             onSelect={this.handleSelectExercise}/>
@@ -76,6 +75,8 @@ class SelectExercise extends Component {
 export default ReduxContainer({
   selectors: {
     exercises: getExercisesSelector,
+    selectedUniversityId: getSelectedUniversityId,
+    selectedFacultyId: getSelectedFacultyId,
     selectedCourseId: getSelectedCourseId,
     selectedSemesterIds: getSelectedSemesterIds,
     selectedExerciseIds: getSelectedExerciseIds

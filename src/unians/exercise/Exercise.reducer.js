@@ -14,10 +14,15 @@ const exerciseReducer = (state = initialState, action) => {
 
     switch (type) {
         case GET_EXERCISES_SUCCESS: {
-            const { exercises } = payload;
+            const { exerciseState } = payload;
+            const { university, faculty, course, semesters, exercises } = exerciseState;
 
             return {
                 ...state,
+                university, 
+                faculty, 
+                course, 
+                semesters,
                 exercises
             };
         }
