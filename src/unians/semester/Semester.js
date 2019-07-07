@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 
 import { 
+  getSemesters as getSemestersSelector, 
+  getSelectedSemesterIds 
+} from './Semester.selectors';
+
+import { getSelectedUniversityId } from '../university';
+
+import { 
   getSemesters, 
   selectSemester, 
 } from './Semester.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
-
-import { 
-  getSemesters as getSemestersSelector, 
-  getSelectedSemesterIds 
-} from './Semester.selectors';
-
-import { universitySelectors } from '../university';
-const { getSelectedUniversityId } = universitySelectors;
 
 class Semester extends Component {
   async componentDidMount(){

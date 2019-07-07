@@ -1,5 +1,16 @@
 import React from 'react';
 
+import { 
+    getUniversity, 
+    getFaculty, 
+    getCourse
+} from '../Exercise.selectors';
+
+import { getSelectedUniversityId } from '../../university';
+import { getSelectedFacultyId } from '../../faculty';
+import { getSelectedCourseId } from '../../course';
+import { getSelectedSemesterIds } from '../../semester';
+
 import { getExercisesForCourseAndSemesters } from '../Exercise.actions'
 
 import { ReduxContainer } from '../../../components';
@@ -7,22 +18,6 @@ import { SelectExercise } from '..';
 
 import { PageContainer, SemesterSection, Section, MainContent } from './FindExercises.styles';
 import { StyledIconTitle } from '../../Unians.styles';
-
-import { 
-    getUniversity, 
-    getFaculty, 
-    getCourse
-} from '../Exercise.selectors';
-
-import { universitySelectors } from '../../university';
-import { facultySelectors } from '../../faculty';
-import { courseSelectors } from '../../course';
-import { semesterSelectors } from '../../semester';
-
-const { getSelectedUniversityId } = universitySelectors;
-const { getSelectedFacultyId } = facultySelectors;
-const { getSelectedCourseId } = courseSelectors;
-const { getSelectedSemesterIds } = semesterSelectors;
 
 class FindExercises extends React.Component {
     async componentDidMount(){

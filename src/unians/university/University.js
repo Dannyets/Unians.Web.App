@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { 
@@ -14,16 +14,23 @@ import {
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 import { AddNew } from '../add';
-import { ModalStateComponent } from '../modal-state-component';
 
 import { PageContainer, MainContent } from '../Unians.styles';
 
-class University extends ModalStateComponent {
+class University extends Component {
+  state = {
+    showAddModal: false
+  }
+  
   async componentDidMount(){
     const { actions } = this.props;
     const { getUniversities } = actions;
-
+    
     await getUniversities();
+  }
+  
+  toggleShowAddModal = () => {
+    this.setState((state) => ({ showAddModal: !state.showAddModal }));
   }
 
   handleUniversitySelect = (universityId) => {

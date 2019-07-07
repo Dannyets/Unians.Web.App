@@ -1,13 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
-
-import { getFacultyCourses, selectCourse, addCourse } from './Course.actions';
-
-import { ModalStateComponent } from '../modal-state-component';
-import { AddNew } from '../add';
-
-import { PageContainer, MainContent, StyledIconTitle } from '../Unians.styles';
 
 import { 
   getCourses, 
@@ -16,21 +9,32 @@ import {
   getSelectedCourseId
 } from './Course.selectors';
 
-import { universitySelectors } from '../university';
-import { facultySelectors } from '../faculty';
+import { getSelectedUniversityId } from '../university';
+import { getSelectedFacultyId } from '../faculty';
 
-const { getSelectedUniversityId } = universitySelectors;
-const { getSelectedFacultyId } = facultySelectors;
+import { getFacultyCourses, selectCourse, addCourse } from './Course.actions';
 
-class Course extends ModalStateComponent {
+import { AddNew } from '../add';
+
+import { PageContainer, MainContent, StyledIconTitle } from '../Unians.styles';
+
+class Course extends Component {
+  state = {
+    showAddModal: false
+  }
+  
   async componentDidMount(){
     await this.getCourses();
   }
-
+  
   async componentDidUpdate(prevProps){
     if(this.shouldGetCourses(prevProps)){
       await this.getCourses();
     }
+  }
+  
+  toggleShowAddModal = () => {
+    this.setState((state) => ({ showAddModal: !state.showAddModal }));
   }
 
   shouldGetCourses = (prevProps) => {

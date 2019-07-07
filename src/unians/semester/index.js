@@ -1,9 +1,5 @@
-import * as actions from './Semester.actions';
-import * as actionTypes from './Semester.actionTypes';
-import * as selectors from './Semester.selectors';
-
 export { default as semesterReducer } from './Semester.reducer';
-export const semesterActions = actions;
-export const semesterActionTypes = actionTypes;
-export const semesterSelectors = selectors;
+export { getSemesters as getSemestersSelector, getSelectedSemesterIds } from './Semester.selectors';
+export { getSemesters, selectSemester } from './Semester.actions';
+export { GET_SEMESTERS_SUCCESS, SELECT_SEMESTER } from './Semester.actionTypes';
 export { default } from './Semester';

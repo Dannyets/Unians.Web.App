@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import {
@@ -6,6 +6,8 @@ import {
   getSelectedFacultyId,
   getFaculties as getFacultiesSelector,
 } from './Faculties.selectors';
+
+import { getSelectedUniversityId } from '../University';
 
 import { 
   getFacultiesForUniversity, 
@@ -15,7 +17,6 @@ import {
 
 import { CardsSuggestionInput, ReduxContainer } from '../../components';
 import { AddNew } from '../add';
-import { ModalStateComponent } from '../modal-state-component';
 
 import { 
   PageContainer, 
@@ -23,10 +24,11 @@ import {
   StyledIconTitle 
 } from '../Unians.styles';
 
-import { universitySelectors } from '../University';
-const {  getSelectedUniversityId } = universitySelectors;
+class Faculty extends Component {
+  state = {
+    showAddModal: false
+  }
 
-class Faculty extends ModalStateComponent {
   async componentDidMount(){
     await this.getFaculties();
   }
@@ -35,6 +37,10 @@ class Faculty extends ModalStateComponent {
     if(this.shouldGetFaculties(prevProps)){
       await this.getFaculties();
     }
+  }
+
+  toggleShowAddModal = () => {
+    this.setState((state) => ({ showAddModal: !state.showAddModal }));
   }
 
   shouldGetFaculties = (prevProps) => {

@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
 
+import {
+  getExercises as getExercisesSelector,
+  getSelectedExerciseIds
+} from '../Exercise.selectors';
+
+import { getSelectedUniversityId } from '../../university';
+import { getSelectedFacultyId } from '../../faculty';
+import { getSelectedCourseId } from '../../course';
+import { getSelectedSemesterIds } from '../../semester';
+
 import { 
   getExercisesForCourseAndSemesters, 
   selectExercise 
 } from '../Exercise.actions';
 
 import { CardsSuggestionInput, ReduxContainer } from '../../../components';
-
-import {
-  getExercises as getExercisesSelector,
-  getSelectedExerciseIds
-} from '../Exercise.selectors';
-
-import { universitySelectors } from '../../university';
-import { facultySelectors } from '../../faculty';
-import { courseSelectors } from '../../course';
-import { semesterSelectors } from '../../semester';
-
-const { getSelectedUniversityId } = universitySelectors;
-const { getSelectedFacultyId } = facultySelectors;
-const { getSelectedCourseId } = courseSelectors;
-const { getSelectedSemesterIds } = semesterSelectors;
 
 class SelectExercise extends Component {
   async componentDidMount(){

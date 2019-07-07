@@ -1,9 +1,5 @@
-import * as actions from './Course.actions';
-import * as selectors from './Course.selectors';
-import * as actionTypes from './Course.actionTypes';
-
 export { default as courseReducer } from './Course.reducer';
-export const courseActions = actions;
-export const courseActionTypes = actionTypes;
-export const courseSelectors = selectors;
+export { getCourses, getFaculty, getUniversity, getSelectedCourseId } from './Course.selectors';
+export { addCourse, getFacultyCourses, selectCourse } from './Course.actions';
+export { ADD_COURSE_SUCCESS, GET_FACULTY_COURSES, SELECT_COURSE } from './Course.actionTypes';
 export { default } from './Course';
