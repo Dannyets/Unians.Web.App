@@ -30,7 +30,7 @@
     "enzyme-adapter-react-16": "^1.9.1",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "material-ui-pickers": "^2.2.1",
     "moment": "2.22.1",
     "odatajs": "^4.0.0",
