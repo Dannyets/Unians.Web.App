@@ -58,7 +58,7 @@
     "styled-theming": "^2.2.0",
     "superagent": "4.1.0",
     "webfontloader": "1.6.28",
-    "xmldom": "^0.1.27"
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
